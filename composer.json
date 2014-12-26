@@ -1,0 +1,26 @@
+{
+    "name": "top-games/multi-language",
+    "description": "A Laravel package to handle multi language localization.",
+    "keywords": ["laravel", "localization", "language"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michele Angioni",
+            "email": "michele.angioni@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "laravel/framework": "4.2.*"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master",
+        "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "TopGames\\MultiLanguage\\": "src"
+        }
+    },
+    "minimum-stability": "stable"
+}
