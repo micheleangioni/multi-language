@@ -1,5 +1,5 @@
 {
-    "name": "top-games/multi-language",
+    "name": "michele-angioni/multi-language",
     "description": "A Laravel package to handle multi language localization.",
     "keywords": ["laravel", "localization", "language"],
     "license": "MIT",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TopGames\\MultiLanguage\\": "src"
+            "MicheleAngioni\\MultiLanguage\\": "src"
         }
     },
     "minimum-stability": "stable"

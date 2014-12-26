@@ -1,6 +1,6 @@
 <?php
 
-namespace TopGames\MultiLanguage;
+namespace MicheleAngioni\MultiLanguage;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use DirectoryNotCreatedException;

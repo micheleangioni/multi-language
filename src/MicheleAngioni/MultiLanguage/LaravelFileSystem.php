@@ -1,6 +1,6 @@
 <?php
 
-namespace TopGames\MultiLanguage;
+namespace MicheleAngioni\MultiLanguage;
 
 use Illuminate\Filesystem\Filesystem;
 

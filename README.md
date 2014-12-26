@@ -12,8 +12,8 @@ Multi Language can be installed through Composer, just include `"angioni/multi-l
 
 Add the following service service providers under the providers array in your app.php configuration file
 
-    'TopGames\MultiLanguage\LanguageManagerServiceProvider',
-    'TopGames\MultiLanguage\LanguageManagerBindServiceProvider'
+    'MicheleAngioni\MultiLanguage\LanguageManagerServiceProvider',
+    'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider'
 
 Multi Language can be highly customized by publishing the configuration file through the artisan command `php artisan config:publish angioni/multi-language`.
 
@@ -27,10 +27,10 @@ You can than edit the config.php file in your `app/config/packages/angioni/multi
 
 ## Usage
 
-The `TopGames\MultiLanguage\LanguageManager` class is the class that accesses all Multi Language features.
+The `MicheleAngioni\MultiLanguage\LanguageManager` class is the class that accesses all Multi Language features.
 By default it will uses the [Laravel file system manager](http://laravel.com/api/4.2/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/4.2/localization).
 
-You can inject it in the constructor of the one of your classes or directly instance it by using the Laravel Application facade `App::make('TopGames\MultiLanguage\LanguageManager')` and use its methods:
+You can inject it in the constructor of the one of your classes or directly instance it by using the Laravel Application facade `App::make('MicheleAngioni\MultiLanguage\LanguageManager')` and use its methods:
 
 - getLanguagesPath() : get current path to languages files
 - setLanguagesPath($path) : set the path to languages files
@@ -51,8 +51,8 @@ You can inject it in the constructor of the one of your classes or directly inst
 ## (optional) Custom File System and Translator
 
 By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/4.2/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/4.2/localization).
-You can override that by defining your own file system (which has to implement the `TopGames\MultiLanguage\FileSystemInterface`) and translator (which has to implement the `TopGames\MultiLanguage\TranslatorInterface`)
-The two new files can be injected in the Language Manager constructor by commenint the 'TopGames\MultiLanguage\LanguageManagerBindServiceProvider' line in the app.php conf file and defining your custom binding in a new service provider.
+You can override that by defining your own file system (which has to implement the `MicheleAngioni\MultiLanguage\FileSystemInterface`) and translator (which has to implement the `MicheleAngioni\MultiLanguage\TranslatorInterface`)
+The two new files can be injected in the Language Manager constructor by commenint the 'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider' line in the app.php conf file and defining your custom binding in a new service provider.
 
 ## Contribution guidelines
 

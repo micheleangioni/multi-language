@@ -1,6 +1,6 @@
 <?php
 
-namespace TopGames\MultiLanguage;
+namespace MicheleAngioni\MultiLanguage;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -21,9 +21,9 @@ class MultiLanguageBindServiceProvider extends ServiceProvider {
 	public function register()
 	{
         $this->app->bind(
-            'TopGames\MultiLanguage\LanguageManager', function($app)
+            'MicheleAngioni\MultiLanguage\LanguageManager', function($app)
         {
-            return new \TopGames\MultiLanguage\LanguageManager(new \TopGames\MultiLanguage\LaravelFileSystem($app['files']), $app['translator']);
+            return new \MicheleAngioni\MultiLanguage\LanguageManager(new \MicheleAngioni\MultiLanguage\LaravelFileSystem($app['files']), $app['translator']);
         });
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace TopGames\MultiLanguage;
+namespace MicheleAngioni\MultiLanguage;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +20,7 @@ class MultiLanguageServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('top-games/multi-language');
+		$this->package('michele-angioni/multi-language');
 	}
 
 	/**
