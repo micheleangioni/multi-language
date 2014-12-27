@@ -12,12 +12,12 @@ Multi Language can be installed through Composer, just include `"angioni/multi-l
 
 Add the following service service providers under the providers array in your app.php configuration file
 
-    'MicheleAngioni\MultiLanguage\LanguageManagerServiceProvider',
-    'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider'
+    'MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider',
+    'MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider'
 
-Multi Language can be highly customized by publishing the configuration file through the artisan command `php artisan config:publish angioni/multi-language`.
+Multi Language can be highly customized by publishing the configuration file through the artisan command `php artisan config:publish michele-angioni/multi-language`.
 
-You can than edit the config.php file in your `app/config/packages/angioni/multi-language` directory to customize the support behaviour:
+You can than edit the config.php file in your `app/config/packages/michele-angioni/multi-language` directory to customize the support behaviour:
 
 - allowed_languages : it is the number of allowed languages. It can be used to prevent the creation of new supported languages
 - allowed_nested_arrays : maximum number of nested arrays allowed in lang files
@@ -54,9 +54,113 @@ By default the Language Manager uses the [Laravel file system manager](http://la
 You can override that by defining your own file system (which has to implement the `MicheleAngioni\MultiLanguage\FileSystemInterface`) and translator (which has to implement the `MicheleAngioni\MultiLanguage\TranslatorInterface`)
 The two new files can be injected in the Language Manager constructor by commenint the 'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider' line in the app.php conf file and defining your custom binding in a new service provider.
 
+## Example
+
+Suppose we have a `users.php` file under the app/lang/en directory
+
+    /app
+    ├--/controllers
+    ├--/lang
+    |     └--/en
+    |          └--users.php
+
+which contains
+
+    <?php
+
+    return array(
+
+        "password" => "Passwords must be at least six characters and match the confirmation.",
+
+        "user" => "We can't find a user with that e-mail address.",
+
+        "token" => "This password reset token is invalid.",
+
+        "sent" => "Password reminder sent!",
+
+    );
+
+Let's take we want to make available a Spanish version of the file. We can build a controller handling the language management
+
+    <?php
+
+    use MicheleAngioni\MultiLanguage\LanguageManager;
+
+    class LanguagesController extends \BaseController {
+
+        private $languageManager;
+
+        function __construct(LanguageManager $languageManager)
+        {
+            $this->languageManager = $languageManager;
+        }
+
+    }
+
+and write down some methods to handle the requests.
+
+    public function index()
+    {
+        $languages = $this->languageManager->getAvailableLanguages();
+
+        return View::make('languages')->with('languages', $languages)
+    }
+
+The above $languages variable would just be a single value array `['en']` since we only have the /en directory under /lang.
+
+We now need a list of the English files:
+
+    public function showFiles()
+    {
+        $files = $this->languageManager->getLanguageFiles();
+
+        return View::make('languagesFiles')->with('files', $files)
+    }
+
+The showFiles() method would just return `['users']` as we have just one file in our /lang/en directory.
+
+Let's examine the content of the file
+
+    // $fileName = 'users';
+    public function showFile($fileName)
+    {
+        $file = $this->languageManager->getLanguageFile($fileName)
+
+        return View::make('languagesFile')->with('file', $file)
+    }
+
+The above method returns an array with the file content.
+
+Let's now create a Spanish version. First of all we must create the /es directory under the /lang directory
+
+    public function createNewLanguage()
+    {
+        // [...] Input validation
+
+        $this->languageManager->createNewLanguage($input['locale']);
+
+        return Redirect::route('[...]')->with('ok', 'New language successfully created.');
+    }
+
+We then obviously need a view to submit the Spanish sentences and we leave it up to you.
+An associative array with key => sentence structure must be sent from the view to the following method
+
+    public function saveFile($locale, $fileName)
+    {
+        // [...] Input validation
+
+        $this->languageManager->setLocale($languageCode);
+
+        $this->languageManager->writeLanguageFile($fileName, $input['all']);
+
+        return Redirect::route('[...]')->with('ok', 'Lang file successfully saved.');
+    }
+
+A demo example will be soon available on Github.
+
 ## Contribution guidelines
 
-Pull requests are welcome. Breaking changes won't be merged.
+Pull requests are welcome. Breaking changes may still be allowed.
 
 ## License
 
