@@ -6,7 +6,7 @@ Multi Language is a [Laravel 4](http://laravel.com) package which handles the pr
 
 ## Installation
 
-Multi Language can be installed through Composer, just include `"angioni/multi-language": "dev-master"` to your composer.json.
+Multi Language can be installed through Composer, just include `"michele-angioni/multi-language": "dev-master"` to your composer.json.
 
 ## Configuration
 
