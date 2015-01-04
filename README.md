@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Multi Language is a [Laravel 4](http://laravel.com) package which handles the project localization. It acts as a wrapper for the laravel localization package and lets easy translation of your lang files into new languages.
+Multi Language is a [Laravel 4](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
 
 ## Installation
 
@@ -10,20 +10,19 @@ Multi Language can be installed through Composer, just include `"michele-angioni
 
 ## Configuration
 
-Add the following service service providers under the providers array in your app.php configuration file
+Add the following service providers under the providers array in your app.php configuration file
 
     'MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider',
     'MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider'
 
-Multi Language can be highly customized by publishing the configuration file through the artisan command `php artisan config:publish michele-angioni/multi-language`.
-
+Multi Language can be highly customized by publishing the configuration file through the artisan command `php artisan config:publish michele-angioni/multi-language`. 
 You can than edit the config.php file in your `app/config/packages/michele-angioni/multi-language` directory to customize the support behaviour:
 
 - allowed_languages : it is the number of allowed languages. It can be used to prevent the creation of new supported languages
 - allowed_nested_arrays : maximum number of nested arrays allowed in lang files
 - language_files_path : path to the language files
 - max_text_length : max text length allowed for the languages keys
-- safe_mode : enables / disables Safe Mode. If safe mode is enabled, only files with the same name of files of default locale can be created. Furthermore, only keys already present in the default locale can be added.
+- safe_mode : enables / disables safe mode. If safe mode is enabled, only files with the same name of files of default locale can be created. Furthermore, only keys already present in the default locale can be added to new languages.
 
 ## Usage
 
@@ -80,7 +79,7 @@ which contains
 
     );
 
-Let's take we want to make available a Spanish version of the file. We can build a controller handling the language management
+Let's suppose we want to create a Spanish version of the file. We can build a controller handling the language management
 
     <?php
 
@@ -101,7 +100,7 @@ and write down some methods to handle the requests.
 
     public function index()
     {
-        $languages = $this->languageManager->getAvailableLanguages();
+        $languages = $this->languageManager->getAvailableLanguages(); // ['en']
 
         return View::make('languages')->with('languages', $languages)
     }
@@ -112,7 +111,7 @@ We now need a list of the English files:
 
     public function showFiles()
     {
-        $files = $this->languageManager->getLanguageFiles();
+        $files = $this->languageManager->getLanguageFiles(); // ['users']
 
         return View::make('languagesFiles')->with('files', $files)
     }
@@ -160,7 +159,7 @@ A demo example will be soon available on Github.
 
 ## Contribution guidelines
 
-Pull requests are welcome. Breaking changes may still be allowed.
+Pull requests are welcome. Breaking changes may still be allowed on current branch.
 
 ## License
 
