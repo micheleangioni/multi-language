@@ -1,3 +1,3 @@
-<?php
+<?php namespace MicheleAngioni\MultiLanguage;
 
-class InvalidFileNameException extends Exception {}
+class InvalidFileNameException extends \Exception {}

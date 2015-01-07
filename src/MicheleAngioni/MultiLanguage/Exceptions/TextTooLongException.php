@@ -1,3 +1,3 @@
-<?php
+<?php namespace MicheleAngioni\MultiLanguage;
 
-class TextTooLongException extends Exception {}
+class TextTooLongException extends \Exception {}

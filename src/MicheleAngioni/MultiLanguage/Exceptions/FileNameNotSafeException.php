@@ -1,3 +1,3 @@
-<?php
+<?php namespace MicheleAngioni\MultiLanguage;
 
-class FileNameNotSafeException extends Exception {}
+class FileNameNotSafeException extends \Exception {}

@@ -1,16 +1,7 @@
-<?php
-
-namespace MicheleAngioni\MultiLanguage;
+<?php namespace MicheleAngioni\MultiLanguage;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use DirectoryNotCreatedException;
-use FileNameNotSafeException;
-use KeysNotSafeException;
 use InvalidArgumentException;
-use InvalidFileNameException;
-use LanguageNotFoundException;
-use TextTooLongException;
-use TooManyNestedArraysException;
 
 class LanguageManager {
 
@@ -76,15 +67,15 @@ class LanguageManager {
      * @param  FileSystemInterface $fileSystem
      * @param  TranslatorInterface $translator
      */
-    function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator)
+    function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator, $app = NULL)
     {
-        $this->app = app();
+        $this->app = $app ?: app();
 
         $this->allowedLanguages = $this->app['config']->get('multi-language::allowed_languages');
 
         $this->allowedNestedArrays = $this->app['config']->get('multi-language::allowed_nested_arrays');
 
-        $this->defaultLocale = $this->app['config']['app.fallback_locale'];
+        $this->defaultLocale = $this->app['config']->get('app.fallback_locale');
 
         $this->fileSystem = $fileSystem;
 

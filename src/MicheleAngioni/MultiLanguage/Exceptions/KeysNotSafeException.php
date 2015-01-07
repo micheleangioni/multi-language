@@ -1,3 +1,3 @@
-<?php
+<?php namespace MicheleAngioni\MultiLanguage;
 
-class KeysNotSafeException extends Exception {}
+class KeysNotSafeException extends \Exception {}

@@ -1,6 +1,4 @@
-<?php
-
-namespace MicheleAngioni\MultiLanguage;
+<?php namespace MicheleAngioni\MultiLanguage;
 
 use Illuminate\Filesystem\Filesystem;
 

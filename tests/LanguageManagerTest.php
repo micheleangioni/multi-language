@@ -1,23 +1,16 @@
 <?php
 
-class LanguageManagerTest extends TestCase {
-
-
-    public function __construct()
-    {
-
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
-
-    }
+class LanguageManagerTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testSetLanguagesPath()
 	{
-        $languageManager = App::make('MicheleAngioni\MultiLanguage\LanguageManager');
+        $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
+        $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
+
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
+
+        $languageManager->makePartial();
 
         $languageManager->setLanguagesPath('testLanguagesPath');
 
@@ -39,8 +32,7 @@ class LanguageManagerTest extends TestCase {
             ->once()
             ->andReturn('it');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $languageManager
             ->shouldReceive('getAvailableLanguages')
@@ -55,15 +47,14 @@ class LanguageManagerTest extends TestCase {
     }
 
     /**
-     * @expectedException LanguageNotFoundException
+     * @expectedException MicheleAngioni\MultiLanguage\LanguageNotFoundException
      */
     public function testSetLocaleFailing()
     {
         $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
         $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $languageManager
             ->shouldReceive('getAvailableLanguages')
@@ -80,8 +71,7 @@ class LanguageManagerTest extends TestCase {
         $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
         $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $languageManager
             ->shouldReceive('getLanguagesPath')
@@ -116,8 +106,7 @@ class LanguageManagerTest extends TestCase {
             ->once()
             ->andReturn('en');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $languageManager->makePartial();
 
@@ -157,8 +146,7 @@ class LanguageManagerTest extends TestCase {
                 'key2' => 'value2'
             ));
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $languageManager->makePartial();
 
@@ -184,8 +172,7 @@ class LanguageManagerTest extends TestCase {
             ->once()
             ->andReturn('value1');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $languageManager->makePartial();
 
@@ -199,8 +186,7 @@ class LanguageManagerTest extends TestCase {
         $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
         $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $newLanguage = 'it';
 
@@ -233,8 +219,7 @@ class LanguageManagerTest extends TestCase {
         $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
         $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $fileName = 'test1';
 
@@ -302,15 +287,14 @@ class LanguageManagerTest extends TestCase {
     }
 
     /**
-     * @expectedException TooManyNestedArraysException
+     * @expectedException MicheleAngioni\MultiLanguage\TooManyNestedArraysException
      */
     public function testWriteLanguageFileTooManyNestedArrays()
     {
         $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
         $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $fileName = 'test1';
 
@@ -352,8 +336,7 @@ class LanguageManagerTest extends TestCase {
         $mockFileSystem = $this->mock('MicheleAngioni\MultiLanguage\FileSystemInterface');
         $mockTranslator = $this->mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
-            [$mockFileSystem, $mockTranslator]);
+        $languageManager = $this->getLanguageManagerMock($mockFileSystem, $mockTranslator);
 
         $fileName = 'test1';
 
@@ -389,11 +372,30 @@ class LanguageManagerTest extends TestCase {
         $this->assertTrue($result);
     }
 
+
+    protected function getLanguageManagerMock($mockFileSystem, $mockTranslator)
+    {
+        $app = [];
+
+        $app['config'] = $this->mock('config');
+        $app['config']->shouldReceive('get')->with('multi-language::allowed_languages')->andReturn(10);
+        $app['config']->shouldReceive('get')->with('multi-language::allowed_nested_arrays')->andReturn(3);
+        $app['config']->shouldReceive('get')->with('app.fallback_locale')->andReturn('en');
+        $app['config']->shouldReceive('get')->with('multi-language::max_text_length')->andReturn(100);
+        $app['config']->shouldReceive('get')->with('multi-language::safe_mode')->andReturn(true);
+        $app['config']->shouldReceive('get')->with('multi-language::language_files_path')->andReturn('/lang');
+
+        $app['path'] = '/app';
+
+        $languageManager = \Mockery::mock('MicheleAngioni\MultiLanguage\LanguageManager',
+            [$mockFileSystem, $mockTranslator, $app]);
+
+        return $languageManager;
+    }
+
     public function mock($class)
     {
         $mock = Mockery::mock($class);
-
-        $this->app->instance($class, $mock);
 
         return $mock;
     }
