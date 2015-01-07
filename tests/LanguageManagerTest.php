@@ -47,7 +47,7 @@ class LanguageManagerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException MicheleAngioni\MultiLanguage\LanguageNotFoundException
+     * @expectedException MicheleAngioni\MultiLanguage\Exceptions\LanguageNotFoundException
      */
     public function testSetLocaleFailing()
     {
@@ -287,7 +287,7 @@ class LanguageManagerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException MicheleAngioni\MultiLanguage\TooManyNestedArraysException
+     * @expectedException MicheleAngioni\MultiLanguage\Exceptions\TooManyNestedArraysException
      */
     public function testWriteLanguageFileTooManyNestedArrays()
     {

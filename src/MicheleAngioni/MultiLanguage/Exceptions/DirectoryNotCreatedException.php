@@ -1,3 +1,3 @@
-<?php namespace MicheleAngioni\MultiLanguage;
+<?php namespace MicheleAngioni\MultiLanguage\Exceptions;
 
 class DirectoryNotCreatedException extends \Exception {}

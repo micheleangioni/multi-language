@@ -2,6 +2,13 @@
 
 use Symfony\Component\Translation\TranslatorInterface;
 use InvalidArgumentException;
+use MicheleAngioni\MultiLanguage\Exceptions\DirectoryNotCreatedException;
+use MicheleAngioni\MultiLanguage\Exceptions\FileNameNotSafeException;
+use MicheleAngioni\MultiLanguage\Exceptions\InvalidFileNameException;
+use MicheleAngioni\MultiLanguage\Exceptions\KeysNotSafeException;
+use MicheleAngioni\MultiLanguage\Exceptions\LanguageNotFoundException;
+use MicheleAngioni\MultiLanguage\Exceptions\TextTooLongException;
+use MicheleAngioni\MultiLanguage\Exceptions\TooManyNestedArraysException;
 
 class LanguageManager {
 
