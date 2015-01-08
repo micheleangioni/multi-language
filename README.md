@@ -1,5 +1,8 @@
 # MULTI LANGUAGE
 
+[![Build Status](https://travis-ci.org/micheleangioni/multi-language.svg)](https://travis-ci.org/micheleangioni/multi-language)
+[![License](https://poser.pugx.org/michele-angioni/multi-language/license.svg)](https://packagist.org/packages/michele-angioni/multi-language)
+
 ## Introduction
 
 Multi Language is a [Laravel 4](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
