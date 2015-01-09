@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/micheleangioni/multi-language.svg)](https://travis-ci.org/micheleangioni/multi-language)
 [![License](https://poser.pugx.org/michele-angioni/multi-language/license.svg)](https://packagist.org/packages/michele-angioni/multi-language)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/576a839e-7c84-4615-894a-465f30c8f881/small.png)](https://insight.sensiolabs.com/projects/576a839e-7c84-4615-894a-465f30c8f881)
 
 ## Introduction
 
