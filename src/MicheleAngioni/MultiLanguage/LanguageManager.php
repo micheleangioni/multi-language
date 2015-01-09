@@ -335,9 +335,6 @@ class LanguageManager {
 
         $this->fileSystem->put($fileName, $content);
 
-        // Wait a bit to be sure the file gets written
-        sleep(5);
-
         return true;
     }
 
@@ -435,7 +432,7 @@ class LanguageManager {
         $keys = explode('.', $path);
 
         // Check that no key have a '0' value
-        //TODO This requisite should be fixed and avoided. The problem is that the '0' key is not read.
+        // This is because the '0' key is not read
         foreach($keys as $keyValue)
         {
             if($keyValue == '0') {
