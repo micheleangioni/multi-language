@@ -6,7 +6,9 @@
 
 ## Introduction
 
-Multi Language is a [Laravel 4](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
+Multi Language is a [Laravel](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
+
+**WARNING** : The Laravel 4 version is not maintained anymore.
 
 ## Installation
 
@@ -158,12 +160,6 @@ An associative array with key => sentence structure must be sent from the view t
 
         return Redirect::route('[...]')->with('ok', 'Lang file successfully saved.');
     }
-
-A demo example will be soon available on Github.
-
-## Contribution guidelines
-
-Pull requests are welcome. Breaking changes may still be allowed on current branch.
 
 ## License
 
