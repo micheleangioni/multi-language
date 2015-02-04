@@ -6,13 +6,13 @@
 
 ## Introduction
 
-Multi Language is a [Laravel](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
-
-**WARNING** : The Laravel 4 version is not maintained anymore.
+Multi Language is a [Laravel 5](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
 
 ## Installation
 
 Multi Language can be installed through Composer, just include `"michele-angioni/multi-language": "dev-master"` to your composer.json.
+
+If you are looking for the Laravel 4 version, include the not-anymore-maintained 0.1 version in your composer-json `"michele-angioni/multi-language": "0.1"`.
 
 ## Configuration
 
@@ -21,8 +21,9 @@ Add the following service providers under the providers array in your app.php co
     'MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider',
     'MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider'
 
-Multi Language can be highly customized by publishing the configuration file through the artisan command `php artisan config:publish michele-angioni/multi-language`. 
-You can than edit the config.php file in your `app/config/packages/michele-angioni/multi-language` directory to customize the support behaviour:
+Multi Language can be highly customized by publishing the configuration file through the artisan command artisan command `php artisan vendor:publish`.  
+It will create the `ma_multilanguage.php` file in your config directory.
+You can than edit the config.php file in your config directory to customize the Multi Language behaviour:
 
 - allowed_languages : it is the number of allowed languages. It can be used to prevent the creation of new supported languages
 - allowed_nested_arrays : maximum number of nested arrays allowed in lang files
@@ -33,7 +34,7 @@ You can than edit the config.php file in your `app/config/packages/michele-angio
 ## Usage
 
 The `MicheleAngioni\MultiLanguage\LanguageManager` class is the class that accesses all Multi Language features.
-By default it will uses the [Laravel file system manager](http://laravel.com/api/4.2/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/4.2/localization).
+By default it will uses the [Laravel file system manager](http://laravel.com/api/5.0/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.0/localization).
 
 You can inject it in the constructor of the one of your classes or directly instance it by using the Laravel Application facade `App::make('MicheleAngioni\MultiLanguage\LanguageManager')` and use its methods:
 
@@ -55,7 +56,7 @@ You can inject it in the constructor of the one of your classes or directly inst
 
 ## (optional) Custom File System and Translator
 
-By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/4.2/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/4.2/localization).
+By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/4.2/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.0/localization).
 You can override that by defining your own file system (which has to implement the `MicheleAngioni\MultiLanguage\FileSystemInterface`) and translator (which has to implement the `MicheleAngioni\MultiLanguage\TranslatorInterface`)
 The two new files can be injected in the Language Manager constructor by commenint the 'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider' line in the app.php conf file and defining your custom binding in a new service provider.
 
@@ -160,6 +161,12 @@ An associative array with key => sentence structure must be sent from the view t
 
         return Redirect::route('[...]')->with('ok', 'Lang file successfully saved.');
     }
+
+## Contribution guidelines
+
+Support follows PSR-1 and PSR-4 PHP coding standards, and semantic versioning.
+
+Please report any issue you find in the issues page.  
 
 ## License
 

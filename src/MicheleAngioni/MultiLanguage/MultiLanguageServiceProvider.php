@@ -18,7 +18,14 @@ class MultiLanguageServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('michele-angioni/multi-language');
+		// Publish config files
+		$this->publishes([
+			__DIR__.'/../../config/config.php' => config_path('ma_multilanguage.php'),
+		]);
+
+		$this->mergeConfigFrom(
+			__DIR__.'/../../config/config.php', 'ma_multilanguage'
+		);
 	}
 
 	/**
