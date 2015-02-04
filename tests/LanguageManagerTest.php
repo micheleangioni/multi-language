@@ -378,12 +378,12 @@ class LanguageManagerTest extends PHPUnit_Framework_TestCase {
         $app = [];
 
         $app['config'] = $this->mock('config');
-        $app['config']->shouldReceive('get')->with('multi-language::allowed_languages')->andReturn(10);
-        $app['config']->shouldReceive('get')->with('multi-language::allowed_nested_arrays')->andReturn(3);
+        $app['config']->shouldReceive('get')->with('ma_multilanguage.allowed_languages')->andReturn(10);
+        $app['config']->shouldReceive('get')->with('ma_multilanguage.allowed_nested_arrays')->andReturn(3);
         $app['config']->shouldReceive('get')->with('app.fallback_locale')->andReturn('en');
-        $app['config']->shouldReceive('get')->with('multi-language::max_text_length')->andReturn(100);
-        $app['config']->shouldReceive('get')->with('multi-language::safe_mode')->andReturn(true);
-        $app['config']->shouldReceive('get')->with('multi-language::language_files_path')->andReturn('/lang');
+        $app['config']->shouldReceive('get')->with('ma_multilanguage.max_text_length')->andReturn(100);
+        $app['config']->shouldReceive('get')->with('ma_multilanguage.safe_mode')->andReturn(true);
+        $app['config']->shouldReceive('get')->with('ma_multilanguage.language_files_path')->andReturn('/resources/lang');
 
         $app['path'] = '/app';
 
