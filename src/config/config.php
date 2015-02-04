@@ -34,7 +34,7 @@ return array(
     |
     */
 
-    'language_files_path' => '/lang',
+    'language_files_path' => '/resources/lang',
 
     /*
     |--------------------------------------------------------------------------

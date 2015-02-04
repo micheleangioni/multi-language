@@ -78,21 +78,21 @@ class LanguageManager {
     {
         $this->app = $app ?: app();
 
-        $this->allowedLanguages = $this->app['config']->get('multi-language::allowed_languages');
+        $this->allowedLanguages = config('ma_multilanguage.allowed_languages');
 
-        $this->allowedNestedArrays = $this->app['config']->get('multi-language::allowed_nested_arrays');
+        $this->allowedNestedArrays = config('ma_multilanguage.allowed_nested_arrays');
 
-        $this->defaultLocale = $this->app['config']->get('app.fallback_locale');
+        $this->defaultLocale = config('app.fallback_locale');
 
         $this->fileSystem = $fileSystem;
 
-        $this->maxTextLength = $this->app['config']->get('multi-language::max_text_length');
+        $this->maxTextLength = config('ma_multilanguage.max_text_length');
 
-        $this->safeMode = $this->app['config']->get('multi-language::safe_mode');
+        $this->safeMode = config('ma_multilanguage.safe_mode');
 
         $this->translator = $translator;
 
-        $this->languagesPath = $this->app['path'] . $this->app['config']->get('multi-language::language_files_path');
+        $this->languagesPath = base_path() . config('ma_multilanguage.language_files_path');
     }
 
     /**
