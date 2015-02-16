@@ -92,7 +92,7 @@ class LanguageManager {
 
         $this->translator = $translator;
 
-        $this->languagesPath = $this->app['path'] . $this->app['config']->get('ma_multilanguage.language_files_path');
+        $this->languagesPath = $this->app['path'] . DIRECTORY_SEPARATOR . '..' . $this->app['config']->get('ma_multilanguage.language_files_path');
     }
 
     /**
