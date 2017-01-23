@@ -6,20 +6,23 @@
 
 ## Introduction
 
-Multi Language is a [Laravel 5](http://laravel.com) package which handles the localization. It acts as a wrapper for the laravel localization package and lets ease translation of your default lang files into new languages.
+Multi Language is a [Laravel 5.1+](http://laravel.com) package which handles localization. 
+It acts as a wrapper for Laravel localization and lets ease translations of your default lang files into new languages.
 
 ## Installation
 
-Multi Language can be installed through Composer, just include `"michele-angioni/multi-language": "dev-master"` to your composer.json.
+Multi Language can be installed through Composer, just include `"michele-angioni/multi-language": "~0.2"` to your composer.json and than run `composer update`.
 
-If you are looking for the Laravel 4 version, include the not-anymore-maintained 0.1 version in your composer-json `"michele-angioni/multi-language": "0.1"`.
+If you are looking for the Laravel 4 version, use the not-anymore-maintained 0.1 version in your composer-json `"michele-angioni/multi-language": "0.1"`.
 
 ## Configuration
 
 Add the following service providers under the providers array in your app.php configuration file
 
-    'MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider',
-    'MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider'
+```php
+MicheleAngioni\MultiLanguage\MultiLanguageServiceProvider:class,
+MicheleAngioni\MultiLanguage\MultiLanguageBindServiceProvider:class
+```
 
 Multi Language can be highly customized by publishing the configuration file through the artisan command artisan command `php artisan vendor:publish`.  
 It will create the `ma_multilanguage.php` file in your config directory.
@@ -34,7 +37,7 @@ You can than edit the config.php file in your config directory to customize the 
 ## Usage
 
 The `MicheleAngioni\MultiLanguage\LanguageManager` class is the class that accesses all Multi Language features.
-By default it will uses the [Laravel file system manager](http://laravel.com/api/5.0/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.0/localization).
+By default it will uses the [Laravel file system manager](http://laravel.com/api/5.1/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.1/localization).
 
 You can inject it in the constructor of the one of your classes or directly instance it by using the Laravel Application facade `App::make('MicheleAngioni\MultiLanguage\LanguageManager')` and use its methods:
 
@@ -56,7 +59,7 @@ You can inject it in the constructor of the one of your classes or directly inst
 
 ## (optional) Custom File System and Translator
 
-By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/4.2/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.0/localization).
+By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/5.1/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.1/localization).
 You can override that by defining your own file system (which has to implement the `MicheleAngioni\MultiLanguage\FileSystemInterface`) and translator (which has to implement the `MicheleAngioni\MultiLanguage\TranslatorInterface`)
 The two new files can be injected in the Language Manager constructor by commenint the 'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider' line in the app.php conf file and defining your custom binding in a new service provider.
 
@@ -64,107 +67,123 @@ The two new files can be injected in the Language Manager constructor by commeni
 
 Suppose we have a `users.php` file under the app/lang/en directory
 
-    /app
-    ├--/controllers
-    ├--/lang
-    |     └--/en
-    |          └--users.php
+```php
+/app
+├--/controllers
+├--/lang
+|     └--/en
+|          └--users.php
+```
 
 which contains
 
-    <?php
+```php
+<?php
 
-    return array(
+return array(
 
-        "password" => "Passwords must be at least six characters and match the confirmation.",
+    "password" => "Passwords must be at least six characters and match the confirmation.",
 
-        "user" => "We can't find a user with that e-mail address.",
+    "user" => "We can't find a user with that e-mail address.",
 
-        "token" => "This password reset token is invalid.",
+    "token" => "This password reset token is invalid.",
 
-        "sent" => "Password reminder sent!",
+    "sent" => "Password reminder sent!",
 
-    );
+);
+```
 
 Let's suppose we want to create a Spanish version of the file. We can build a controller handling the language management
 
-    <?php
+```php
+<?php
 
-    use MicheleAngioni\MultiLanguage\LanguageManager;
+use MicheleAngioni\MultiLanguage\LanguageManager;
 
-    class LanguagesController extends \BaseController {
+class LanguagesController extends \BaseController {
 
-        private $languageManager;
+    private $languageManager;
 
-        function __construct(LanguageManager $languageManager)
-        {
-            $this->languageManager = $languageManager;
-        }
-
+    function __construct(LanguageManager $languageManager)
+    {
+        $this->languageManager = $languageManager;
     }
+
+}
+```
 
 and write down some methods to handle the requests.
 
-    public function index()
-    {
-        $languages = $this->languageManager->getAvailableLanguages(); // ['en']
+```php
+public function index()
+{
+    $languages = $this->languageManager->getAvailableLanguages(); // ['en']
 
-        return View::make('languages')->with('languages', $languages)
-    }
+    return View::make('languages')->with('languages', $languages)
+}
+```
 
-The above $languages variable would just be a single value array `['en']` since we only have the /en directory under /lang.
+The above $languages variable would just be a single value array `['en']` since we only have the `/en` folder under `/lang`.
 
 We now need a list of the English files:
 
-    public function showFiles()
-    {
-        $files = $this->languageManager->getLanguageFiles(); // ['users']
+```php
+public function showFiles()
+{
+    $files = $this->languageManager->getLanguageFiles(); // ['users']
 
-        return View::make('languagesFiles')->with('files', $files)
-    }
+    return View::make('languagesFiles')->with('files', $files)
+}
+```
 
-The showFiles() method would just return `['users']` as we have just one file in our /lang/en directory.
+The showFiles() method would just return `['users']` as we have just one file in our `/lang/en` folder.
 
 Let's examine the content of the file
 
-    // $fileName = 'users';
-    public function showFile($fileName)
-    {
-        $file = $this->languageManager->getLanguageFile($fileName)
+```php
+// $fileName = 'users';
+public function showFile($fileName)
+{
+    $file = $this->languageManager->getLanguageFile($fileName)
 
-        return View::make('languagesFile')->with('file', $file)
-    }
+    return View::make('languagesFile')->with('file', $file)
+}
+```
 
 The above method returns an array with the file content.
 
-Let's now create a Spanish version. First of all we must create the /es directory under the /lang directory
+Let's now create a Spanish version. First of all we must create the `/es` folder under the `/lang` folder
 
-    public function createNewLanguage()
-    {
-        // [...] Input validation
+```php
+public function createNewLanguage()
+{
+    // [...] Input validation
 
-        $this->languageManager->createNewLanguage($input['locale']);
+    $this->languageManager->createNewLanguage($input['locale']);
 
-        return Redirect::route('[...]')->with('ok', 'New language successfully created.');
-    }
+    return Redirect::route('[...]')->with('ok', 'New language successfully created.');
+}
+```
 
 We then obviously need a view to submit the Spanish sentences and we leave it up to you.
-An associative array with key => sentence structure must be sent from the view to the following method
+An associative array with **key => sentence** structure must be sent from the view to the following method
 
-    public function saveFile($locale, $fileName)
-    {
-        // [...] Input validation
+```php
+public function saveFile($locale, $fileName)
+{
+    // [...] Input validation
 
-        $this->languageManager->setLocale($languageCode);
+    $this->languageManager->setLocale($languageCode);
 
-        $this->languageManager->writeLanguageFile($fileName, $input['all']);
+    $this->languageManager->writeLanguageFile($fileName, $input['all']);
 
-        return Redirect::route('[...]')->with('ok', 'Lang file successfully saved.');
-    }
+    return Redirect::route('[...]')->with('ok', 'Lang file successfully saved.');
+}
+```
 
 ## Contribution guidelines
 
-Support follows PSR-1 and PSR-4 PHP coding standards, and semantic versioning.
+Support follows PSR-1, PSR-2 and PSR-4 PHP coding standards, and semantic versioning.
 
 Please report any issue you find in the issues page.  
 
