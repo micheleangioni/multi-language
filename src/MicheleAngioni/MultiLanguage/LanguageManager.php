@@ -77,7 +77,7 @@ class LanguageManager
      * @param  FileSystemInterface $fileSystem
      * @param  TranslatorInterface $translator
      */
-    function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator, $app = null)
+    public function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator, $app = null)
     {
         $this->app = $app ?: app();
 

@@ -12,7 +12,7 @@ class LaravelFileSystem implements FileSystemInterface
     protected $filesystem;
 
 
-    function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
     }
