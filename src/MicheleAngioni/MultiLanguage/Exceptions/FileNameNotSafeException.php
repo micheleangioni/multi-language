@@ -1,3 +1,5 @@
-<?php namespace MicheleAngioni\MultiLanguage\Exceptions;
+<?php
+
+namespace MicheleAngioni\MultiLanguage\Exceptions;
 
 class FileNameNotSafeException extends \Exception {}

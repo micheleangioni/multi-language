@@ -1,9 +1,14 @@
-<?php namespace MicheleAngioni\MultiLanguage;
+<?php
+
+namespace MicheleAngioni\MultiLanguage;
 
 use Illuminate\Filesystem\Filesystem;
 
-class LaravelFileSystem implements FileSystemInterface {
-
+class LaravelFileSystem implements FileSystemInterface
+{
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
 
 

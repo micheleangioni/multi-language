@@ -1,4 +1,6 @@
-<?php namespace MicheleAngioni\MultiLanguage;
+<?php
+
+namespace MicheleAngioni\MultiLanguage;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use InvalidArgumentException;
@@ -10,7 +12,8 @@ use MicheleAngioni\MultiLanguage\Exceptions\LanguageNotFoundException;
 use MicheleAngioni\MultiLanguage\Exceptions\TextTooLongException;
 use MicheleAngioni\MultiLanguage\Exceptions\TooManyNestedArraysException;
 
-class LanguageManager {
+class LanguageManager
+{
 
     /**
      * Laravel Application.
@@ -74,7 +77,7 @@ class LanguageManager {
      * @param  FileSystemInterface $fileSystem
      * @param  TranslatorInterface $translator
      */
-    function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator, $app = NULL)
+    function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator, $app = null)
     {
         $this->app = $app ?: app();
 
@@ -108,7 +111,7 @@ class LanguageManager {
     /**
      * Set the path to the directory containing the language directories.
      *
-     * @param  string  $path
+     * @param  string $path
      */
     public function setLanguagesPath($path)
     {
@@ -118,7 +121,7 @@ class LanguageManager {
     /**
      * Set the max allowed length of a language text or key.
      *
-     * @param  int  $value
+     * @param  int $value
      */
     public function setMaxTextLength($value)
     {
@@ -148,12 +151,13 @@ class LanguageManager {
     /**
      * Set new locale.
      *
-     * @param  string  $locale
+     * @param  string $locale
+     *
      * @throws LanguageNotFoundException
      */
     public function setLocale($locale)
     {
-        if(!in_array($locale, $this->getAvailableLanguages())) {
+        if (!in_array($locale, $this->getAvailableLanguages())) {
             throw new LanguageNotFoundException("Language $locale not found.");
         }
 
@@ -163,12 +167,13 @@ class LanguageManager {
     /**
      * Set the safe mode.
      *
-     * @param  bool  $bool
+     * @param  bool $bool
+     *
      * @throws InvalidArgumentException
      */
     public function setSafeMode($bool)
     {
-        if(!is_bool($bool)) {
+        if (!is_bool($bool)) {
             throw new InvalidArgumentException("Input variable is not a valid boolean.");
         }
 
@@ -182,11 +187,11 @@ class LanguageManager {
      */
     public function getAvailableLanguages()
     {
-        $languages = array();
+        $languages = [];
 
         $paths = $this->fileSystem->getDirectories($this->getLanguagesPath());
 
-        foreach($paths as $path) {
+        foreach ($paths as $path) {
             $languages[] = substr($path, strlen($this->getLanguagesPath()) + 1);
         }
 
@@ -196,14 +201,15 @@ class LanguageManager {
     /**
      * Return the list of the set locale files (without extension).
      *
-     * @param  bool  $useDefaultLocale = false
+     * @param  bool $useDefaultLocale = false
+     *
      * @return array
      */
     public function getLanguageFiles($useDefaultLocale = false)
     {
-        $files = array();
+        $files = [];
 
-        if($useDefaultLocale) {
+        if ($useDefaultLocale) {
             $locale = $this->getDefaultLocale();
         } else {
             $locale = $this->getLocale();
@@ -211,10 +217,10 @@ class LanguageManager {
 
         $paths = $this->fileSystem->getFiles($this->getLanguagesPath() . DIRECTORY_SEPARATOR . $locale);
 
-        foreach($paths as $path) {
+        foreach ($paths as $path) {
             $completeFileName = substr($path, strlen($this->getLanguagesPath()) + strlen($locale) + 2);
 
-            $files[] = array_pad(explode(".",$completeFileName), 2, '.ext')[0];
+            $files[] = array_pad(explode(".", $completeFileName), 2, '.ext')[0];
         }
 
         return $files;
@@ -223,8 +229,9 @@ class LanguageManager {
     /**
      * Return all keys contained in the set locale input file (without extension).
      *
-     * @param  string  $fileName
-     * @param  bool    $useDefaultLocale
+     * @param  string $fileName
+     * @param  bool $useDefaultLocale
+     *
      * @throws InvalidFileNameException
      *
      * @return array
@@ -232,11 +239,11 @@ class LanguageManager {
     public function getLanguageFile($fileName, $useDefaultLocale = false)
     {
         // Check the input file name
-        if(!$this->checkFileName($fileName)) {
+        if (!$this->checkFileName($fileName)) {
             throw new InvalidFileNameException("Input file name is not valid.");
         }
 
-        if(!$useDefaultLocale) {
+        if (!$useDefaultLocale) {
             return $this->translator->get($fileName);
         }
 
@@ -253,8 +260,9 @@ class LanguageManager {
     /**
      * Return the value of input key in the set locale input file (without extension).
      *
-     * @param  string  $fileName
-     * @param  string  $key
+     * @param  string $fileName
+     * @param  string $key
+     *
      * @throws InvalidFileNameException
      *
      * @return string
@@ -262,7 +270,7 @@ class LanguageManager {
     public function getLanguageFileKey($fileName, $key)
     {
         // Check the input file name
-        if(!$this->checkFileName($fileName)) {
+        if (!$this->checkFileName($fileName)) {
             throw new InvalidFileNameException("Input file name is not valid.");
         }
 
@@ -273,18 +281,19 @@ class LanguageManager {
      * Create a new directory under the languages directory for input locale.
      * Return true on success.
      *
-     * @param  string  $newLocale
+     * @param  string $newLocale
+     *
      * @throws DirectoryNotCreatedException
      *
      * @return bool
      */
     public function createNewLanguage($newLocale)
     {
-        if(count($this->getAvailableLanguages()) >= $this->allowedLanguages) {
+        if (count($this->getAvailableLanguages()) >= $this->allowedLanguages) {
             throw new DirectoryNotCreatedException("Max number of allowed languages alread reached.");
         }
 
-        if(!$this->fileSystem->makeDirectory($this->getLanguagesPath() . DIRECTORY_SEPARATOR . $newLocale)) {
+        if (!$this->fileSystem->makeDirectory($this->getLanguagesPath() . DIRECTORY_SEPARATOR . $newLocale)) {
             throw new DirectoryNotCreatedException("New directory for locale $newLocale cannot be created.");
         }
 
@@ -295,8 +304,9 @@ class LanguageManager {
      * Write the input array on a php file under the /lang/locale directory with input name.
      * Return true on success.
      *
-     * @param  string  $fileName
-     * @param  array   $inputs
+     * @param  string $fileName
+     * @param  array $inputs
+     *
      * @throws FileNameNotSafeException
      * @throws InvalidFileNameException
      * @throws KeysNotSafeException
@@ -306,14 +316,14 @@ class LanguageManager {
     public function writeLanguageFile($fileName, array $inputs)
     {
         // Check if same mode is enabled, in case check if $fileName is safe
-        if($this->safeMode) {
-            if(!$this->checkIfFileNameIsSafe($fileName)) {
+        if ($this->safeMode) {
+            if (!$this->checkIfFileNameIsSafe($fileName)) {
                 throw new FileNameNotSafeException("Input file name for language file is not safe.");
             };
         }
 
         // Check the input file name
-        if(!$this->checkFileName($fileName)) {
+        if (!$this->checkFileName($fileName)) {
             throw new InvalidFileNameException("Input file name is not valid.");
         }
 
@@ -323,8 +333,8 @@ class LanguageManager {
         // Handle dot notation and build the array
         $inputs = $this->buildArray($inputs);
 
-        if($this->safeMode) {
-            if(!$this->checkIfKeysAreSafe($fileName, $inputs)) {
+        if ($this->safeMode) {
+            if (!$this->checkIfKeysAreSafe($fileName, $inputs)) {
                 throw new KeysNotSafeException("Input keys for language file are not safe.");
             };
         }
@@ -341,7 +351,8 @@ class LanguageManager {
     /**
      * Escape input array. Keys beginning with _ are discarded. If the file already exists, it gets overwritten.
      *
-     * @param  array  $inputs
+     * @param  array $inputs
+     *
      * @throws InvalidArgumentException
      * @throws TextTooLongException
      *
@@ -349,19 +360,18 @@ class LanguageManager {
      */
     protected function purifyInputs(array $inputs)
     {
-        $newInputs = array();
+        $newInputs = [];
 
-        foreach($inputs as $key => $value)
-        {
-            if(is_array($value)) {
+        foreach ($inputs as $key => $value) {
+            if (is_array($value)) {
                 throw new InvalidArgumentException('Input array can NOT contain nested arrays.');
             }
 
-            if(strlen((string)$key) > $this->maxTextLength) {
+            if (strlen((string)$key) > $this->maxTextLength) {
                 throw new TextTooLongException("Input array has at least one key whose name exceeds the max length allowed.");
             }
 
-            if(strlen((string)$value) > $this->maxTextLength) {
+            if (strlen((string)$value) > $this->maxTextLength) {
                 throw new TextTooLongException("Input array has at least one language value whose value exceeds the max length allowed.");
             }
 
@@ -374,12 +384,13 @@ class LanguageManager {
     /**
      * Check if the input filename contains potential path traversal characters.
      *
-     * @param  string  $fileName
+     * @param  string $fileName
+     *
      * @return bool
      */
     protected function checkFileName($fileName)
     {
-        if(substr_count($fileName, '../') || substr_count($fileName, '..\\')) {
+        if (substr_count($fileName, '../') || substr_count($fileName, '..\\')) {
             return false;
         }
 
@@ -389,7 +400,8 @@ class LanguageManager {
     /**
      * Build the final array that will be written into the file. Support dot notation.
      *
-     * @param  array  $inputs
+     * @param  array $inputs
+     *
      * @throws InvalidArgumentException
      * @throws TooManyNestedArraysException
      *
@@ -397,15 +409,14 @@ class LanguageManager {
      */
     public function buildArray(array $inputs)
     {
-        $newArray = array();
+        $newArray = [];
 
-        foreach($inputs as $path => $value)
-        {
-            if(is_array($value)) {
+        foreach ($inputs as $path => $value) {
+            if (is_array($value)) {
                 throw new InvalidArgumentException('Input array CANNOT contain nested arrays.');
             }
 
-            if(isset($path[0])) {
+            if (isset($path[0])) {
                 if ($path[0] === '_' || $path[0] === '.') {
                     unset($inputs[$path]);
                     continue;
@@ -421,9 +432,10 @@ class LanguageManager {
     /**
      * Take a path of nested array with dot notation and build an array, saving it through reference.
      *
-     * @param  array   $arr
-     * @param  string  $path
-     * @param  string  $value
+     * @param  array $arr
+     * @param  string $path
+     * @param  string $value
+     *
      * @throws InvalidArgumentException
      * @throws TooManyNestedArraysException
      */
@@ -433,9 +445,8 @@ class LanguageManager {
 
         // Check that no key have a '0' value
         // This is because the '0' key is not read
-        foreach($keys as $keyValue)
-        {
-            if($keyValue == '0') {
+        foreach ($keys as $keyValue) {
+            if ($keyValue == '0') {
                 throw new InvalidArgumentException('Invalid key in input array: part of the key in dot notation can NOT be \'0\'.');
             }
         }
@@ -443,8 +454,8 @@ class LanguageManager {
         // Check if the allowed maximum level of nested array is exceeded
         $nestingLevels = count($keys);
 
-        if($nestingLevels > $this->allowedNestedArrays) {
-            throw new TooManyNestedArraysException("Too many nested arrays in the input arrays. Maximum allowed is: ".$this->allowedNestedArrays);
+        if ($nestingLevels > $this->allowedNestedArrays) {
+            throw new TooManyNestedArraysException("Too many nested arrays in the input arrays. Maximum allowed is: " . $this->allowedNestedArrays);
         }
 
         while ($key = array_shift($keys)) {
@@ -457,24 +468,24 @@ class LanguageManager {
     /**
      * Convert an array with nested arrays into a dot notation array.
      *
-     * @param  array  $array
+     * @param  array $array
+     *
      * @return array
      */
     public function convertArrayToDotNotation(array $array)
     {
         $recursiveIterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
 
-        $newArray = array();
+        $newArray = [];
 
-        foreach ($recursiveIterator as $leafValue)
-        {
-            $keys = array();
+        foreach ($recursiveIterator as $leafValue) {
+            $keys = [];
 
             foreach (range(0, $recursiveIterator->getDepth()) as $depth) {
                 $keys[] = $recursiveIterator->getSubIterator($depth)->key();
             }
 
-            $newArray[ implode('.', $keys) ] = $leafValue;
+            $newArray[implode('.', $keys)] = $leafValue;
         }
 
         return $newArray;
@@ -483,8 +494,8 @@ class LanguageManager {
     /**
      * Check if input keys are safe, i.e. all its keys are contained in the default locale language file.
      *
-     * @param  string  $fileName
-     * @param  array   $array
+     * @param  string $fileName
+     * @param  array $array
      *
      * @return bool
      */
@@ -492,14 +503,14 @@ class LanguageManager {
     {
         $languageFile = $this->getLanguageFile($fileName, true);
 
-        foreach($array as $key => $value) {
-            if(isset($key[0])) {
+        foreach ($array as $key => $value) {
+            if (isset($key[0])) {
                 if ($key[0] === '_' || $key[0] === '.') {
                     continue;
                 }
             }
 
-            if(!array_key_exists($key, $languageFile)) {
+            if (!array_key_exists($key, $languageFile)) {
                 return false;
             }
         }
@@ -510,14 +521,15 @@ class LanguageManager {
     /**
      * Check if input file name is safe, i.e. if the default locale contains a file with the same name.
      *
-     * @param  string  $fileName
+     * @param  string $fileName
+     *
      * @return bool
      */
     protected function checkIfFileNameIsSafe($fileName)
     {
         $allowedFileNames = $this->getLanguageFiles(true);
 
-        if(!in_array($fileName, $allowedFileNames)) {
+        if (!in_array($fileName, $allowedFileNames)) {
             return false;
         }
 

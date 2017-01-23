@@ -1,6 +1,9 @@
-<?php namespace MicheleAngioni\MultiLanguage;
+<?php
 
-interface FileSystemInterface {
+namespace MicheleAngioni\MultiLanguage;
+
+interface FileSystemInterface
+{
 
     public function get($path);
 
