@@ -10,17 +10,18 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "laravel/framework": "~5.0"
+        "php": ">=5.6.0",
+        "laravel/framework": "~5.1"
     },
     "require-dev": {
         "mockery/mockery": "dev-master",
-        "phpunit/phpunit": "4.1.*"
+        "phpunit/phpunit": "5.7.*"
     },
     "autoload": {
         "psr-4": {
             "MicheleAngioni\\MultiLanguage\\": "src/MicheleAngioni/MultiLanguage"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
