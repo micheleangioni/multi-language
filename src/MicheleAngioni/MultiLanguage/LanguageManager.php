@@ -2,7 +2,7 @@
 
 namespace MicheleAngioni\MultiLanguage;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use InvalidArgumentException;
 use MicheleAngioni\MultiLanguage\Exceptions\DirectoryNotCreatedException;
 use MicheleAngioni\MultiLanguage\Exceptions\FileNameNotSafeException;
@@ -67,7 +67,7 @@ class LanguageManager
     protected $safeMode = true;
 
     /**
-     * @var TranslatorInterface
+     * @var TranslatorContract
      */
     protected $translator;
 
@@ -75,9 +75,9 @@ class LanguageManager
      * Language Manager.
      *
      * @param  FileSystemInterface $fileSystem
-     * @param  TranslatorInterface $translator
+     * @param  TranslatorContract $translator
      */
-    public function __construct(FileSystemInterface $fileSystem, TranslatorInterface $translator, $app = null)
+    public function __construct(FileSystemInterface $fileSystem, TranslatorContract $translator, $app = null)
     {
         $this->app = $app ?: app();
 
