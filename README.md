@@ -9,11 +9,11 @@
 Multi Language is a [Laravel 5.1+](http://laravel.com) package which handles localization. 
 It acts as a wrapper for Laravel localization and lets ease translations of your default lang files into new languages.
 
+In case of incompatibilities or errors with Laravel 5.1 - 5.3, or for PHP 5.6, please use [version 0.3](https://github.com/micheleangioni/multi-language/tree/0.3).
+
 ## Installation
 
-Multi Language can be installed through Composer, just include `"michele-angioni/multi-language": "~0.2"` to your composer.json and than run `composer update`.
-
-If you are looking for the Laravel 4 version, use the not-anymore-maintained 0.1 version in your composer-json `"michele-angioni/multi-language": "0.1"`.
+Multi Language can be installed through Composer, just include `"michele-angioni/multi-language": "~0.4"` to your composer.json and than run `composer update`.
 
 ## Configuration
 
@@ -37,7 +37,7 @@ You can than edit the config.php file in your config directory to customize the 
 ## Usage
 
 The `MicheleAngioni\MultiLanguage\LanguageManager` class is the class that accesses all Multi Language features.
-By default it will uses the [Laravel file system manager](http://laravel.com/api/5.1/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.1/localization).
+By default it will uses the [Laravel file system manager](http://laravel.com/api/5.4/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.4/localization).
 
 You can inject it in the constructor of the one of your classes or directly instance it by using the Laravel Application facade `App::make('MicheleAngioni\MultiLanguage\LanguageManager')` and use its methods:
 
@@ -59,7 +59,7 @@ You can inject it in the constructor of the one of your classes or directly inst
 
 ## (optional) Custom File System and Translator
 
-By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/5.1/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.1/localization).
+By default the Language Manager uses the [Laravel file system manager](http://laravel.com/api/5.4/Illuminate/Filesystem/Filesystem.html) and the [Laravel localization feature](http://laravel.com/docs/5.4/localization).
 You can override that by defining your own file system (which has to implement the `MicheleAngioni\MultiLanguage\FileSystemInterface`) and translator (which has to implement the `MicheleAngioni\MultiLanguage\TranslatorInterface`)
 The two new files can be injected in the Language Manager constructor by commenint the 'MicheleAngioni\MultiLanguage\LanguageManagerBindServiceProvider' line in the app.php conf file and defining your custom binding in a new service provider.
 
@@ -183,9 +183,9 @@ public function saveFile($locale, $fileName)
 
 ## Contribution guidelines
 
-Support follows PSR-1, PSR-2 and PSR-4 PHP coding standards, and semantic versioning.
+Support follows PSR-1, PSR-2 and PSR-4 PHP coding standards and semantic versioning.
 
-Please report any issue you find in the issues page.  
+Please report any issue you find in the issues page. Pull requests are welcome.
 
 ## License
 
